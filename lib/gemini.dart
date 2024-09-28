@@ -1,9 +1,8 @@
-import 'dart:io';
 import 'dart:convert';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 Future<String> gemini(String sendtextAI) async {
-  final apiKey = 'AIzaSyDq3YW4c7_2Zv4VjSxsZVQR2d7Xof_9r7o';
+  const apiKey = 'AIzaSyDq3YW4c7_2Zv4VjSxsZVQR2d7Xof_9r7o';
   final model = GenerativeModel(
     model: 'gemini-1.5-flash',
     apiKey: apiKey,

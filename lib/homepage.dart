@@ -47,7 +47,7 @@ class _NutriScanPageState extends State<NutriScanPage> {
                     setState(() {
                       isLoading = false;
                     });
-                  if (ocr.recognizedText != null && ocr.recognizedText.isNotEmpty) {
+                  if (ocr.recognizedText.isNotEmpty) {
                     setState(() {
                       isLoading = true;
                     });
@@ -86,7 +86,7 @@ class _NutriScanPageState extends State<NutriScanPage> {
                   setState(() {
                       isLoading = false;
                     });
-                  if (ocr.recognizedText != null && ocr.recognizedText.isNotEmpty) {
+                  if (ocr.recognizedText.isNotEmpty) {
                     setState(() {
                       isLoading = true;
                     });

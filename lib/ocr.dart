@@ -4,27 +4,22 @@ import 'dart:io';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:ingredients_summarizer/gemini.dart';
 
-class TextRecognitionScreen extends StatefulWidget {
-  @override
-  _TextRecognitionScreenState createState() => _TextRecognitionScreenState();
-}
 
-class _TextRecognitionScreenState extends State<TextRecognitionScreen> {
+
+class Ocr{
   File? _image;
   String _recognizedText = '';
 
-  Future<void> _pickImage() async {
+  Future<void> pickImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: source);
     if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
-      _recognizeText();
+      _image = File(image.path);
+      await recognizeText();
     }
   }
 
-  Future<void> _recognizeText() async {
+  Future<void> recognizeText() async {
     if (_image == null) return;
 
     final inputImage = InputImage.fromFile(_image!);
@@ -32,48 +27,12 @@ class _TextRecognitionScreenState extends State<TextRecognitionScreen> {
     final textDetector = GoogleMlKit.vision.textRecognizer();
     final RecognizedText recognizedText = await textDetector.processImage(inputImage);
 
-    setState(() {
-      _recognizedText = recognizedText.text;
-      gemini(_recognizedText);
-    });
+    _recognizedText = recognizedText.text;
+
+
 
     textDetector.close();
   }
+  String get recognizedText => _recognizedText;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Text Recognition'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _image != null
-              ? Image.file(_image!, height: 200, width: 200)
-              : Container(
-                  height: 200,
-                  width: 200,
-                  color: Colors.grey[300],
-                  child: Icon(Icons.image, size: 100, color: Colors.grey),
-                ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _pickImage,
-            child: Text('Pick Image from Gallery'),
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Recognized Text:',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 10),
-          Text(
-            _recognizedText,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
 }

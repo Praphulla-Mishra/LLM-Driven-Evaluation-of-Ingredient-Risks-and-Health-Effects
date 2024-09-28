@@ -3,8 +3,16 @@ import 'ocr.dart';
 import 'package:ingredients_summarizer/gemini.dart';
 import 'final_screen.dart';
 import 'package:image_picker/image_picker.dart';
-class NutriScanPage extends StatelessWidget {
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+class NutriScanPage extends StatefulWidget {
+  @override
+  State<NutriScanPage> createState() => _NutriScanPageState();
+}
+
+class _NutriScanPageState extends State<NutriScanPage> {
   final ocr = Ocr();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +22,13 @@ class NutriScanPage extends StatelessWidget {
         title: Text('NutriScan', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
       ),
-      body: Container(
+      body: Center(
+        child: isLoading
+            ? LoadingAnimationWidget.staggeredDotsWave (
+                color: Colors.black,
+                size: 200,
+              ):
+        Container(
         color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -22,19 +36,32 @@ class NutriScanPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ElevatedButton.icon(
-                icon: Icon(Icons.image, color: Colors.white),
+                icon: const Icon(Icons.image, color: Colors.white),
                 label:
-                    Text('Upload Image', style: TextStyle(color: Colors.white)),
+                    const Text('Upload Image', style: TextStyle(color: Colors.white)),
                 onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
                   await ocr.pickImage(ImageSource.gallery);
-                  String response = await gemini(ocr.recognizedText);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FinalScreen(text: response),
-                    ),
-                  );
-                  
+                    setState(() {
+                      isLoading = false;
+                    });
+                  if (ocr.recognizedText != null && ocr.recognizedText.isNotEmpty) {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    String response = await gemini(ocr.recognizedText);
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FinalScreen(text: response),
+                      ),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -52,14 +79,28 @@ class NutriScanPage extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+                  setState(() {
+                      isLoading = true;
+                    });
                   await ocr.pickImage(ImageSource.camera);
-                  String response = await gemini(ocr.recognizedText);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FinalScreen(text: response),
-                    ),
-                  );
+                  setState(() {
+                      isLoading = false;
+                    });
+                  if (ocr.recognizedText != null && ocr.recognizedText.isNotEmpty) {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    String response = await gemini(ocr.recognizedText);
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FinalScreen(text: response),
+                      ),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -69,6 +110,7 @@ class NutriScanPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

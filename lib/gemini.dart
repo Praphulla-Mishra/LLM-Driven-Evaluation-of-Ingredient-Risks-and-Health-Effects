@@ -23,7 +23,7 @@ Future<String> gemini(String sendtextAI) async {
       ),
     ),
     systemInstruction: Content.system(
-        'you are given text extracted from ingredient list mentioned in packaged food and you have to give a breif summary of ingredients used and specially highlight harmful substances found in it, make a short summary of it, also since the text you are getting is taken from image using ocr, so it might have some spelling errors, so try to predict the ingredients properly. You are talking directly to user so have abstraction and use official language.\n'),
+        'you are given text extracted from ingredient list mentioned in packaged food and you have to give a breif summary of ingredients used and specially highlight harmful substances found in it, make a short summary of it, also since the text you are getting is taken from image using ocr, so it might have some spelling errors, so try to predict the ingredients properly. You are talking directly to user so have abstraction and use official language. Also format the text like major ingredient summary in different lines like the one in history of our chat.\n'),
   );
 
   final chat = model.startChat(history: [

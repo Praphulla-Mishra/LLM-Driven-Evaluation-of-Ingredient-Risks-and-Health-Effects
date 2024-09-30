@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<String> gemini(String sendtextAI) async {
-  const apiKey = 'AIzaSyDq3YW4c7_2Zv4VjSxsZVQR2d7Xof_9r7o';
+  await dotenv.load(fileName: ".env");
+  final apiKey = dotenv.env['GEMINI_API']!;
   final model = GenerativeModel(
     model: 'gemini-1.5-flash',
     apiKey: apiKey,
@@ -41,5 +43,4 @@ Future<String> gemini(String sendtextAI) async {
   final response = await chat.sendMessage(content);
   final decodedResponse = json.decode(response.text!);
   return decodedResponse['response'];
-  
 }

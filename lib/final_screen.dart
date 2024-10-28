@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class FinalScreen extends StatefulWidget {
   final String text;
   const FinalScreen({required this.text});
@@ -13,7 +12,7 @@ class _FinalScreenState extends State<FinalScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('NutriScan', style: TextStyle(color: Colors.white)),
+        title: const Text('Ingredient Insight Assistant', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
       ),
       body: Padding(
@@ -21,7 +20,7 @@ class _FinalScreenState extends State<FinalScreen> {
         child: Column(
           children: [
             const Text(
-              'Summarized by AI',
+              'AI Analysis',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

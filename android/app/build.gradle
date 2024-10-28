@@ -38,6 +38,7 @@ android {
             release {
             // Enabling code shrinking, obfuscation, and optimization
             minifyEnabled true
+            shrinkResources true
             // Using ProGuard rules
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             }

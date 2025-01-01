@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ocr.dart';
-import 'package:ingredients_summarizer/gemini.dart';
+import 'package:ingredients_summarizer/response.dart';
 import 'final_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -84,8 +84,10 @@ class _NutriScanPageState extends State<NutriScanPage> {
                                       isLoading = true;
                                     });
                                     await loadHealthConditions();
-                                    String response = await gemini(
-                                    ocr.recognizedText, healthConditions);
+                                    // String response = await gemini(
+                                    // ocr.recognizedText, healthConditions);
+                                    String response = await postIngredients(
+                                        ocr.recognizedText, healthConditions);
                                     setState(() {
                                       isLoading = false;
                                     });
@@ -129,7 +131,9 @@ class _NutriScanPageState extends State<NutriScanPage> {
                                     });
 
                                     await loadHealthConditions();
-                                    String response = await gemini(
+                                    // String response = await gemini(
+                                    //     ocr.recognizedText, healthConditions);
+                                    String response = await postIngredients(
                                         ocr.recognizedText, healthConditions);
                                     setState(() {
                                       isLoading = false;

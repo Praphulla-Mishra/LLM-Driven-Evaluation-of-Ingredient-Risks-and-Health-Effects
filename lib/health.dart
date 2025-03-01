@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:google_fonts/google_fonts.dart'; 
+import 'utils.dart';
 class HealthText extends StatefulWidget {
-  const HealthText({super.key});
-
+  const HealthText({Key? key}) : super(key: key);
   @override
   State<HealthText> createState() => _HealthTextState();
 }
@@ -13,7 +13,7 @@ class _HealthTextState extends State<HealthText> {
   bool _hasHypertension = false;
   late TextEditingController _customConditionController;
 
-  // Function to save health conditions
+
   Future<void> saveHealthConditions(
       bool isDiabetic, bool hasHypertension, String customCondition) async {
     try {
@@ -25,6 +25,7 @@ class _HealthTextState extends State<HealthText> {
       print("Error saving health conditions: $e");
     }
   }
+
 
   Future<void> loadHealthConditions() async {
     try {
@@ -40,7 +41,6 @@ class _HealthTextState extends State<HealthText> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -51,114 +51,149 @@ class _HealthTextState extends State<HealthText> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Ingredient Insight Assistant',
-            style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black,
-      ),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text("Select your health conditions:",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: CheckboxListTile(
-                title: const Text("Diabetes",
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-                value: _isDiabetic,
-                onChanged: (value) {
-                  setState(() {
-                    _isDiabetic = value!;
-                  });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: CheckboxListTile(
-                title: const Text("Hypertension",
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-                value: _hasHypertension,
-                onChanged: (value) {
-                  setState(() {
-                    _hasHypertension = value!;
-                  });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: TextField(
-                controller: _customConditionController,
-                maxLines: 3,
-                minLines: 3, // Minimum height for the box
-                decoration: const InputDecoration(
-                  labelText: "Other health conditions",
-                  hintText: "List any additional health conditions here...",
-                  border:
-                      OutlineInputBorder(), // Adds a border around the TextField
+      backgroundColor: Color(0xFFF8F9FA),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
+          child: SingleChildScrollView( 
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, 
+              children: [
+                Text(
+                  'Health Details', 
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800], 
+                    fontFamily: GoogleFonts.outfit().fontFamily, 
+                  ),
+                  textAlign: TextAlign.start, 
                 ),
-                keyboardType: TextInputType.multiline,
-                scrollPadding: const EdgeInsets.all(
-                    20.0), // Optional: adds padding when scrolling
-                textInputAction: TextInputAction.newline,
-              ),
+                SizedBox(height: 40), 
+
+                Text(
+                  "Select your health conditions:",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500, 
+                      color: Colors.grey[700], 
+                      fontFamily: GoogleFonts.outfit().fontFamily),
+                ),
+                SizedBox(height: 20), 
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0), 
+                  child: CheckboxListTile(
+                    title: Text("Diabetes",
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.normal, 
+                            color: Colors.grey[800], 
+                            fontFamily: GoogleFonts.outfit().fontFamily)),
+                    value: _isDiabetic,
+                    onChanged: (value) {
+                      setState(() {
+                        _isDiabetic = value!;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading, 
+                    activeColor: Colors.blueGrey[700], 
+                    checkColor: Colors.white, 
+                    contentPadding: EdgeInsets.symmetric(horizontal: 0), 
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0), 
+                  child: CheckboxListTile(
+                    title: Text("Hypertension",
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.normal, 
+                            color: Colors.grey[800], 
+                            fontFamily: GoogleFonts.outfit().fontFamily)),
+                    value: _hasHypertension,
+                    onChanged: (value) {
+                      setState(() {
+                        _hasHypertension = value!;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading, 
+                    activeColor: Colors.blueGrey[700], 
+                    checkColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                  ),
+                ),
+                SizedBox(height: 20), 
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  child: TextField(
+                    controller: _customConditionController,
+                    maxLines: 3,
+                    minLines: 3,
+                    decoration: InputDecoration(
+                      labelText: "Other health conditions",
+                      hintText: "List any additional health conditions here...",
+                      labelStyle: TextStyle(color: Colors.grey[600], fontFamily: GoogleFonts.outfit().fontFamily), // Label text color
+                      hintStyle: TextStyle(color: Colors.grey[500], fontFamily: GoogleFonts.outfit().fontFamily), // Hint text color
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12), 
+                        borderSide: BorderSide(color: Colors.blueGrey.shade300),
+                      ),
+                      focusedBorder: OutlineInputBorder( 
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.blueGrey.shade500), 
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16), 
+                    ),
+                    keyboardType: TextInputType.multiline,
+                    scrollPadding: const EdgeInsets.all(20.0),
+                    textInputAction: TextInputAction.newline,
+                    style: TextStyle(color: Colors.grey[800], fontFamily: GoogleFonts.outfit().fontFamily), 
+                  ),
+                ),
+                SizedBox(height: 30), 
+
+                ModernButton( 
+                  onPressed: () async {
+                    await saveHealthConditions(_isDiabetic, _hasHypertension,
+                        _customConditionController.text);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Health Condition Saved',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        duration: const Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        backgroundColor: Colors.blueGrey[700], 
+                        elevation: 6,
+                        margin: const EdgeInsets.all(10),
+                        action: SnackBarAction(
+                          label: 'DISMISS',
+                          textColor: Colors.tealAccent,
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          },
+                        ),
+                      ),
+                    );
+                    Navigator.pop(context); 
+                  },
+                  text: "Save Conditions",
+                  icon: Icons.save_outlined, 
+                ),
+                SizedBox(height: 20), 
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton(
-                onPressed: () async {
-                  saveHealthConditions(_isDiabetic, _hasHypertension,
-                      _customConditionController.text);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text(
-                                  'Health Condition Saved',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                duration: const Duration(seconds: 2),
-                                behavior: SnackBarBehavior.floating, // Makes it float above other content
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                backgroundColor: Colors.grey[900],
-                                elevation: 6,
-                                margin: const EdgeInsets.all(10), // Adds margin around the snackbar
-                                action: SnackBarAction(
-                                  label: 'DISMISS',
-                                  textColor: Colors.tealAccent, // Modern accent color
-                                  onPressed: () {
-                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                  },
-                                ),
-                              ),
-                            );
-                      Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                child: const Text("Save Conditions",
-                    style: TextStyle(color: Colors.white)),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
+          ),
         ),
       ),
     );

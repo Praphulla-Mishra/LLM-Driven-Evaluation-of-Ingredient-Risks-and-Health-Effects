@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; 
+import 'utils.dart';
+import 'homepage.dart';
+
 class FinalScreen extends StatefulWidget {
   final String text;
-  const FinalScreen({required this.text});
+  const FinalScreen({Key? key, required this.text})
+      : super(key: key); 
+
   @override
   State<FinalScreen> createState() => _FinalScreenState();
 }
@@ -10,65 +16,75 @@ class _FinalScreenState extends State<FinalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Ingredient Insight Assistant', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-        child: Column(
-          children: [
-            const Text(
-              'AI Analysis',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20), // Space between heading and text
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey[900], // Darker color to match black theme
-                  borderRadius: BorderRadius.circular(15),
+      backgroundColor: Color(
+          0xFFF8F9FA), 
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start, 
+            children: [
+              Text(
+                'AI Analysis Results', 
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[
+                      800],
+                  fontFamily:
+                      GoogleFonts.outfit().fontFamily, 
                 ),
-                padding: const EdgeInsets.all(40),
-                child: SingleChildScrollView(
-                  child: Text(
-                    widget.text,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white, // White text for contrast
+                textAlign: TextAlign.start, 
+              ),
+              SizedBox(height: 30), 
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[
+                        100],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  padding: const EdgeInsets.all(
+                      30), 
+                  child: SingleChildScrollView(
+                    child: Text(
+                      widget.text,
+                      style: TextStyle(
+                        fontSize:
+                            18, 
+                        fontWeight: FontWeight
+                            .w400,
+                        color: Colors.grey[
+                            800], 
+                        fontFamily: GoogleFonts.outfit()
+                            .fontFamily, 
+                        height: 1.5, 
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20), // Space before button
-            SizedBox(
-              width: double.infinity, // Full-width button
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context); // Go back to the previous screen
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black, // Black button color
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Rounded corners
-                  ),
-                ),
-                child: const Text(
-                  'Go Back',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+              SizedBox(height: 40),
+              SizedBox(
+                width: double.infinity,
+                child: ModernButton(
+                  onPressed: () {
+                     Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NutriScanPage(),
+                    ),
+                  );
+                  },
+                  text: 'Go Back',
+                  icon: Icons
+                      .arrow_back_outlined,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
